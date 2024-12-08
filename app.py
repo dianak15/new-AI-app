@@ -14,7 +14,7 @@ class HealthInput(BaseModel):
     symptoms: str  # Free-text symptoms description
 
 # Load a Hugging Face model (e.g., text classification for symptom analysis)
-model = pipeline("text-classification", model="distilbert-base-uncased-finetuned-sst-2-english")
+model = pipeline("text-classification", model="distilbert-base-uncased-finetuned-sst-2-english", force_download=True)
 
 @app.get("/")
 async def root():
