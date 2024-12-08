@@ -85,31 +85,31 @@ if st.button("Analyze hemoglobin"):
         st.warning("Please enter your hemoglobin level (g/dL).")
 
 # Submit button
-if st.button("Get Diagnosis"):
+#if st.button("Get Diagnosis"):
     # Create input payload
-    input_data = {
-        "age": age,
-        "gender": gender,
-        "hemoglobin": user_input,
-        "symptoms": symptoms
-    }
+    #input_data = {
+        #"age": age,
+        #"gender": gender,
+       # "hemoglobin": user_input,
+        #"symptoms": symptoms
+    #}
 
     # Send request to FastAPI backend
-    try:
-        response = requests.post(f"{BACKEND_URL}", json=input_data)
-        if response.status_code == 200:
-            result = response.json()
-            st.success("Diagnosis:")
-            for diag in result["diagnosis"]:
-                st.write(f"- {diag}")
-            st.info(result["recommendation"])
+   # try:
+    #    response = requests.post(f"{BACKEND_URL}", json=input_data)
+     #   if response.status_code == 200:
+     #       result = response.json()
+     #       st.success("Diagnosis:")
+      #      for diag in result["diagnosis"]:
+      #          st.write(f"- {diag}")
+      #      st.info(result["recommendation"])
 
             # Call function to get health professionals and map if location is provided
             
-        else:
-            st.error("Failed to fetch diagnosis. Please try again.")
-    except Exception as e:
-        st.error(f"Error: {e}")
+      #  else:
+       #     st.error("Failed to fetch diagnosis. Please try again.")
+   # except Exception as e:
+   #     st.error(f"Error: {e}")
 
 
 
