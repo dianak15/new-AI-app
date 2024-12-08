@@ -1,6 +1,4 @@
-import os
 from groq import Groq
-import datetime
 import matplotlib.pyplot as plt
 import streamlit as st
 import requests
@@ -13,7 +11,6 @@ BACKEND_URL = "http://127.0.0.1:8000/diagnose"
 
 # Set your Groq API Key
 API_KEY = "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"  # Replace with your actual key
-GOOGLE_API_KEY = "AIzaSyCZvl2cIaJelDOFz0lrtWtqHRehoOzrmiQ"
 
 if not API_KEY:
     st.error("API Key is missing. Please provide a valid GROQ_API_KEY.")
@@ -22,7 +19,7 @@ if not API_KEY:
 # Initialize Groq client
 client = Groq(api_key=API_KEY)
 
-gmaps = googlemaps.Client(key=GOOGLE_API_KEY)
+
 
 
 # Global storage for reminders and progress tracking
@@ -37,7 +34,7 @@ age = st.number_input("Enter your age:", min_value=0, step=1)
 gender = st.radio("Select your gender:", ("Male", "Female"))
 #hemoglobin = st.number_input("Enter your hemoglobin level (g/dL):", step=0.1)
 symptoms = st.text_area("Describe your symptoms:")
-location = st.text_input("Enter your location (City or Address):")  # Input for location
+
 
 
 # Function to interact with Gemma2-9b-it model
@@ -67,32 +64,6 @@ def analyze_health(age, gender, hemoglobin, symptoms):
     #progress["hemoglobin"].append((user_input, response))
     #return response
     
-def get_health_professionals_and_map(location, query):
-    try:
-        if not location or not query:
-            return [], ""  # Return empty list if inputs are missing
-            
-        geo_location = gmaps.geocode(location)
-        if geo_location:
-            lat, lng = geo_location[0]["geometry"]["location"].values()
-            places_result = gmaps.places_nearby(location=(lat, lng), radius=20000, keyword=query)["results"]  # Increased radius
-            if not places_result:
-                return [], ""  # No results found, return empty list
-            
-            professionals = []
-            map_ = folium.Map(location=(lat, lng), zoom_start=13)
-            for place in places_result:
-                professionals.append([place['name'], place.get('vicinity', 'No address provided')])
-                folium.Marker(
-                    location=[place["geometry"]["location"]["lat"], place["geometry"]["location"]["lng"]],
-                    popup=f"{place['name']} - {place.get('vicinity', 'No address provided')}"
-                ).add_to(map_)
-            return professionals, map_._repr_html_()
-        return [], ""  # Return empty list if no geo_location found
-    except Exception as e:
-        st.error(f"Error fetching healthcare professionals: {e}")
-        return [], ""  # Return empty list on exception
-
     
 user_input = st.text_input("Enter your hemoglobin level (g/dL):")
 #if st.button("Analyze hemoglobin"):
@@ -140,17 +111,6 @@ if st.button("Get Diagnosis"):
     except Exception as e:
         st.error(f"Error: {e}")
 
-if st.button("Find healthcare specialists or hospitals nearby"):
-    
-        if location:
-                professionals, map_html = get_health_professionals_and_map(location, "healthcare")
-                if professionals:
-                    st.write("Nearby Healthcare Professionals:")
-                    for professional in professionals:
-                        st.write(f"- {professional[0]}: {professional[1]}")
-                    st.markdown(map_html, unsafe_allow_html=True)
-                else:
-                    st.warning("No healthcare professionals found nearby.")
 
 
 
