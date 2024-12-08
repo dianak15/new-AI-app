@@ -7,7 +7,7 @@ import folium
 
 
 # Define the FastAPI backend URL
-BACKEND_URL = "https://new-ai-app-5.onrender.com/diagnose"
+BACKEND_URL = "https://new-ai-app-5.onrender.com"
 
 # Set your Groq API Key
 API_KEY = "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"  # Replace with your actual key
